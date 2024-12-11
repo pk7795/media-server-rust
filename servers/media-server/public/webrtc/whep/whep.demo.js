@@ -21,7 +21,6 @@ window.start = async () => {
 
 	const url = "/whep/endpoint";
 	const token = document.getElementById("room-id").value;
-
 	//Start viewing
 	whep.view(pc, url, token);
 

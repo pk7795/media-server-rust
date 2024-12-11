@@ -31,7 +31,7 @@ use tracing_subscriber::{fmt, prelude::*, EnvFilter};
 #[command(author, version, about, long_about = None)]
 struct Args {
     /// Http port
-    #[arg(env, long, default_value_t = 3000)]
+    #[arg(env, long, default_value_t = 3030)]
     http_port: u16,
 
     /// Run http with tls or not
@@ -84,6 +84,7 @@ async fn main() {
         std::env::set_var("RUST_LOG", "atm0s_media_server=info");
     }
     let args: Args = Args::parse();
+    println!("{:?}", args);
     tracing_subscriber::registry().with(fmt::layer()).with(EnvFilter::from_default_env()).init();
     let mut config = ServerSdnConfig {
         secret: args.secret.clone(),
@@ -118,7 +119,6 @@ async fn main() {
             use server::MediaServerContext;
             config.local_tags = vec![format!("media-webrtc-{}", args.sdn_zone)];
             config.connect_tags = vec![format!("gateway-zone-{}", args.sdn_zone)];
-
             let token = Arc::new(cluster::implement::jwt_static::JwtStaticToken::new(&args.secret));
             let ctx = MediaServerContext::new(args.node_id, opts.max_conn, Arc::new(SystemTimer()), token.clone(), token);
             let (cluster, rpc_endpoint, _pubsub) = ServerSdn::new(args.node_id, args.sdn_port, MEDIA_SERVER_SERVICE, config).await;

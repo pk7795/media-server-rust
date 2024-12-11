@@ -17,7 +17,7 @@ use cluster::{
 use futures::{select, FutureExt};
 use media_utils::{ErrorDebugger, StringCompression, SystemTimer, Timer};
 use metrics_dashboard::{build_dashboard_route, DashboardOptions};
-use poem::{web::Json, Route};
+use poem::{web::Json, EndpointExt, Route};
 use poem_openapi::OpenApiService;
 use transport::{MediaKind, TrackId};
 use transport_webrtc::{SdpBoxRewriteScope, TransportNoDatachannelLifeCycle, TransportWithDatachannelLifeCycle};
@@ -93,10 +93,10 @@ where
     let ui = api_service.swagger_ui();
     let spec = api_service.spec();
 
-    #[cfg(feature = "embed-samples")]
-    let samples = EmbeddedFilesEndpoint::<Files>::new(Some("index.html".to_string()));
-    #[cfg(not(feature = "embed-samples"))]
-    let samples = StaticFilesEndpoint::new("./servers/media/public/webrtc").show_files_listing().index_file("index.html");
+    // #[cfg(feature = "embed-samples")]
+    // let samples = EmbeddedFilesEndpoint::<Files>::new(Some("index.html".to_string()));
+    // #[cfg(not(feature = "embed-samples"))]
+    let samples = poem::endpoint::StaticFilesEndpoint::new("./servers/media-server/public/webrtc").show_files_listing().index_file("index.html");
 
     let dashboard_opts = DashboardOptions {
         custom_charts: vec![],
@@ -108,7 +108,7 @@ where
         .nest("/ui/", ui)
         .at("/node-info/", poem::endpoint::make_sync(move |_| Json(node_info.clone())))
         .at("/spec/", poem::endpoint::make_sync(move |_| spec.clone()))
-        .nest("/samples", samples);
+        .nest("/samples/", samples);
 
     // Init media-server related metrics
     ctx.init_metrics();

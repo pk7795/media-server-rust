@@ -82,7 +82,7 @@ impl SsltcpStream {
 
             if !self.handshake {
                 if self.buf[0..n].eq(&K_SSL_CLIENT_HELLO) {
-                    self.stream.write(&K_SSL_SERVER_HELLO).await?;
+                    self.stream.write_all(&K_SSL_SERVER_HELLO).await?;
                     self.handshake = true;
                 } else {
                     return Err(std::io::Error::new(std::io::ErrorKind::InvalidData, "Invalid data"));

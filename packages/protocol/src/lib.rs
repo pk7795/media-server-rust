@@ -51,11 +51,13 @@ pub mod media_event_logs {
 
 #[cfg(test)]
 mod tests {
+    use std::f32::consts::PI;
+
     use super::media_event_logs::*;
 
     #[test]
     fn test_f32p2_conversion() {
-        let value: f32 = 3.14;
+        let value: f32 = PI;
         let f32p2_value: F32p2 = value.into();
         let converted_value: f32 = f32p2_value.into();
 

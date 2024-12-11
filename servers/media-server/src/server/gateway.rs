@@ -98,10 +98,10 @@ where
         address: format!("{}", cluster.node_addr()),
         server_type: ServerType::GATEWAY,
     };
-    #[cfg(feature = "embed-samples")]
-    let samples = EmbeddedFilesEndpoint::<Files>::new(Some("index.html".to_string()));
-    #[cfg(not(feature = "embed-samples"))]
-    let samples = StaticFilesEndpoint::new("./servers/media-server/public/").index_file("index.html");
+    // #[cfg(feature = "embed-samples")]
+    // let samples = EmbeddedFilesEndpoint::<Files>::new(Some("index.html".to_string()));
+    // #[cfg(not(feature = "embed-samples"))]
+    let samples = poem::endpoint::StaticFilesEndpoint::new("./servers/media-server/public/").index_file("index.html");
 
     let dashboard_opts = DashboardOptions {
         custom_charts: vec![],
@@ -113,7 +113,7 @@ where
         .nest("/ui/", ui)
         .at("/node-info/", poem::endpoint::make_sync(move |_| Json(node_info.clone())))
         .at("/spec/", poem::endpoint::make_sync(move |_| spec.clone()))
-        .nest("/samples", samples);
+        .nest("/samples/", samples);
 
     describe_counter!(GATEWAY_SESSIONS_CONNECT_COUNT, "Gateway sessions connect count");
     describe_counter!(GATEWAY_SESSIONS_CONNECT_ERROR, "Gateway sessions connect error count");

@@ -20,8 +20,8 @@ pub use remote_ip_addr::RemoteIpAddr;
 pub use rpc_req::RpcReqResHttp;
 pub use user_agent::UserAgent;
 
-const CERT: &str = include_str!("../../files/local.cert");
-const KEY: &str = include_str!("../../files/local.key");
+// const CERT: &str = include_str!("../../belo.chat/cert.pem");
+// const KEY: &str = include_str!("../../belo.chat/privkey.pem");
 
 pub struct HttpRpcServer<R: Send> {
     port: u16,
@@ -37,9 +37,13 @@ impl<R: 'static + Send> HttpRpcServer<R> {
     }
 
     pub async fn start<CTX: Send + Sync + Clone + 'static>(&mut self, api_service: Route, ctx: CTX) {
-        let route = Route::new().nest("/", api_service).with(Cors::new()).data((self.tx.clone(), ctx));
+        let cors = Cors::new().expose_header("Location");
+        // read cert from file 
+        let cert = std::fs::read_to_string("belo.chat/cert.pem").expect("cert.pem not found");
+        let key = std::fs::read_to_string("belo.chat/privkey.pem").expect("privkey.pem not found");
+        let route = Route::new().nest("/", api_service).with(cors).data((self.tx.clone(), ctx));
         if self.tls {
-            let socket = TcpListener::bind(format!("0.0.0.0:{}", self.port)).rustls(RustlsConfig::new().fallback(RustlsCertificate::new().key(KEY).cert(CERT)));
+            let socket = TcpListener::bind(format!("0.0.0.0:{}", self.port)).rustls(RustlsConfig::new().fallback(RustlsCertificate::new().key(key).cert(cert)));
 
             log::info!("Listening https server on 0.0.0.0:{}", self.port);
             async_std::task::spawn(async move {

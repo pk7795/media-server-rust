@@ -1,6 +1,7 @@
 use std::net::SocketAddr;
 use std::sync::Arc;
 
+use crate::content_type::ContentTypeCleanerMiddleware;
 pub use api_node::NodeApiCtx;
 use media_server_protocol::endpoint::ClusterConnId;
 #[cfg(feature = "console")]
@@ -19,7 +20,6 @@ use serde::Deserialize;
 use tokio::sync::mpsc::Sender;
 #[cfg(feature = "embed_static")]
 use utils::EmbeddedFilesEndpoint;
-
 mod api_console;
 mod api_media;
 mod api_metrics;
@@ -348,7 +348,7 @@ pub async fn run_media_http_server<ES: 'static + MediaEdgeSecure + Send + Sync, 
         .nest("/whip/ui", whip_ui)
         .at("/whip/spec", poem::endpoint::make_sync(move |_| whip_spec.clone()))
         //whep
-        .nest("/whep/", whep_service)
+        .nest("/whep/", whep_service.with(ContentTypeCleanerMiddleware))
         .nest("/whep/ui", whep_ui)
         .at("/whep/spec", poem::endpoint::make_sync(move |_| whep_spec.clone()))
         //rtpengine

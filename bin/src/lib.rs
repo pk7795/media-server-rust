@@ -7,6 +7,7 @@ use atm0s_sdn::{NodeAddr, NodeId};
 use clap::ValueEnum;
 use media_server_protocol::cluster::ZoneId;
 
+pub mod content_type;
 mod errors;
 mod http;
 #[cfg(feature = "node_metrics")]

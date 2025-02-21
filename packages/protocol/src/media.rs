@@ -163,6 +163,10 @@ pub enum H264Profile {
     P4d001fNonInterleaved,
     P4d001fSingleNal,
     P64001fNonInterleaved,
+    P640c34SingleNal,
+    P640c34NonInterleaved,
+    P42e034SingleNal,
+    P42e034NonInterleaved,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize, Deserialize)]

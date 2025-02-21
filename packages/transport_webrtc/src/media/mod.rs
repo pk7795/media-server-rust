@@ -184,6 +184,10 @@ fn str0m_codec_convert(spec: CodecSpec) -> Option<MediaCodec> {
             (Some(0x4d001f), Some(1)) => Some(MediaCodec::H264(H264Profile::P4d001fNonInterleaved)),
             (Some(0x4d001f), Some(0)) => Some(MediaCodec::H264(H264Profile::P4d001fSingleNal)),
             (Some(0x64001f), Some(1)) => Some(MediaCodec::H264(H264Profile::P64001fNonInterleaved)),
+            (Some(0x640c34), Some(1)) => Some(MediaCodec::H264(H264Profile::P640c34NonInterleaved)),
+            (Some(0x640c34), Some(0)) => Some(MediaCodec::H264(H264Profile::P640c34SingleNal)),
+            (Some(0x42e034), Some(1)) => Some(MediaCodec::H264(H264Profile::P42e034NonInterleaved)),
+            (Some(0x42e034), Some(0)) => Some(MediaCodec::H264(H264Profile::P42e034SingleNal)),
             _ => {
                 log::warn!(
                     "invalid h264 profile_level_id {:?} packetization_mode {:?}",

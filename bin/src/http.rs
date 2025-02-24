@@ -355,7 +355,7 @@ pub async fn run_media_http_server<ES: 'static + MediaEdgeSecure + Send + Sync, 
         .nest("/rtpengine/", rtpengine_service)
         .nest("/rtpengine/ui", rtpengine_ui)
         .at("/rtpengine/spec", poem::endpoint::make_sync(move |_| rtpengine_spec.clone()))
-        .with(Cors::new());
+        .with(Cors::new().expose_headers(vec!["location"]));
 
     Server::new(TcpListener::bind(SocketAddr::new([0, 0, 0, 0].into(), port))).run(route).await?;
     Ok(())

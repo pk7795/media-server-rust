@@ -1,6 +1,7 @@
 use std::net::SocketAddr;
 use std::sync::Arc;
 
+use crate::content_type::ContentTypeCleanerMiddleware;
 pub use api_node::NodeApiCtx;
 use media_server_protocol::endpoint::ClusterConnId;
 #[cfg(feature = "console")]
@@ -340,7 +341,7 @@ pub async fn run_media_http_server<ES: 'static + MediaEdgeSecure + Send + Sync, 
         .nest("/api/metrics/ui", metrics_ui)
         .at("/api/metrics/spec", poem::endpoint::make_sync(move |_| metrics_spec.clone()))
         //webrtc
-        .nest("/webrtc/", webrtc_service)
+        .nest("/webrtc/", webrtc_service.with(ContentTypeCleanerMiddleware))
         .nest("/webrtc/ui", webrtc_ui)
         .at("/webrtc/spec", poem::endpoint::make_sync(move |_| webrtc_spec.clone()))
         //whip

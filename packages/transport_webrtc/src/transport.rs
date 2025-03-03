@@ -145,10 +145,10 @@ impl<ES: 'static + MediaEdgeSecure> TransportWebrtc<ES> {
                 9,
                 str0m::rtp::Extension::with_serializer("http://www.webrtc.org/experiments/rtp-hdrext/video-layers-allocation00", str0m::rtp::vla::Serializer),
             )
-            .clear_codecs()
-            .enable_opus(true)
-            // .enable_h264(true)
-            .enable_bwe(Some(Bitrate::kbps(3000)));
+            .clear_codecs();
+        // .enable_opus(true)
+        // .enable_h264(true)
+        // .enable_bwe(Some(Bitrate::kbps(3000)));
         rtc_config.codec_config().add_h264(Pt::new_with_value(96), Some(Pt::new_with_value(114)), true, 4382751);
         let ice_ufrag = rtc_config.local_ice_credentials().as_ref().expect("should have ice credentials").ufrag.clone();
 

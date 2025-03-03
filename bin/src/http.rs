@@ -344,7 +344,7 @@ pub async fn run_media_http_server<ES: 'static + MediaEdgeSecure + Send + Sync, 
         .nest("/webrtc/ui", webrtc_ui)
         .at("/webrtc/spec", poem::endpoint::make_sync(move |_| webrtc_spec.clone()))
         //whip
-        .nest("/whip/", whip_service)
+        .nest("/whip/", whip_service.with(ContentTypeCleanerMiddleware))
         .nest("/whip/ui", whip_ui)
         .at("/whip/spec", poem::endpoint::make_sync(move |_| whip_spec.clone()))
         //whep

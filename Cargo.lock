@@ -4437,9 +4437,9 @@ dependencies = [
 
 [[package]]
 name = "poem"
-version = "3.1.5"
+version = "3.1.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "671795ac42dc4ea9210e44942e8e9844c16541d799499aec2747ab8d4fef50ef"
+checksum = "16307709c77324450688718f77323a9b1cbd1bd4aa5b99fcc97643e19e353f5b"
 dependencies = [
  "bytes 1.9.0",
  "chrono",
@@ -4469,7 +4469,7 @@ dependencies = [
  "smallvec",
  "sync_wrapper",
  "tempfile",
- "thiserror 1.0.69",
+ "thiserror 2.0.3",
  "time 0.3.36",
  "tokio",
  "tokio-stream",
@@ -4492,9 +4492,9 @@ dependencies = [
 
 [[package]]
 name = "poem-openapi"
-version = "5.1.4"
+version = "5.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b0d3c2262b16245f8bfc9b53fd6d7f8262251ecc8fa37db337bbf37b00eb18d7"
+checksum = "f530b348b5be7039c3fb3d6f261ab1f66d028c894c7b9aabcfe866ab1dd6d308"
 dependencies = [
  "base64 0.22.1",
  "bytes 1.9.0",
@@ -4511,15 +4511,15 @@ dependencies = [
  "serde_json",
  "serde_urlencoded",
  "serde_yaml",
- "thiserror 1.0.69",
+ "thiserror 2.0.3",
  "tokio",
 ]
 
 [[package]]
 name = "poem-openapi-derive"
-version = "5.1.4"
+version = "5.1.8"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c31ef68da842fb0c6f8392a8d266170e2a6b8bc2021912f45c4d0247e481598e"
+checksum = "a70421de1445dc21a1bd0dd0b2de25c0d9013f28b60f448cfe9ae5c78e1d947d"
 dependencies = [
  "darling",
  "http 1.1.0",
@@ -4530,7 +4530,7 @@ dependencies = [
  "quote",
  "regex",
  "syn 2.0.89",
- "thiserror 1.0.69",
+ "thiserror 2.0.3",
 ]
 
 [[package]]
